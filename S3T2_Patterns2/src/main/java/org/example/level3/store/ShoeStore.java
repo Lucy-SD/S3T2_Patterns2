@@ -1,30 +1,27 @@
 package org.example.level3.store;
 
-import org.example.level3.implementations.BankAccountDebit;
-import org.example.level3.implementations.CreditCard;
-import org.example.level3.implementations.PayPal;
-import org.example.level3.interfaces.PaymentMethod;
-import org.example.level3.processor.PaymentGateway;
+import org.example.level3.payment.*;
+import org.example.level3.gateway.PaymentGateway;
 
 public class ShoeStore {
-    public void sales() {
+
         PaymentGateway gateway = new PaymentGateway();
 
-        PaymentMethod creditCard = new CreditCard("1234-5678-9101-1121", "Migue Granados");
-        PaymentMethod payPal = new PayPal("migueg@mail.com");
-        PaymentMethod internationalBankDebit = new BankAccountDebit("987654321", "456789123");
-        PaymentMethod nationalBankDebit = new BankAccountDebit("1874695147");
+        public void sale(double price, PaymentMethod method) {
+            System.out.println("Iniciando transacción . . .");
 
-        System.out.println("\n*** Realizando compra con Tarjeta ***");
-        gateway.executePayment(133.87, creditCard);
+        PaymentCallback callback = new PaymentCallback() {
+            @Override
+            public void paymentSuccess(double amount) {
+                System.out.println("Pago con " + method.getClass().getSimpleName() +
+                        " de " + amount + "€ completada con éxito.");
+            }
+            @Override
+            public void paymentError(String message) {
+                System.out.println("Error al realizar el pago: " + message);
+            }
+        };
 
-        System.out.println("*** Realizando compra con PayPal ***");
-        gateway.executePayment(87.22, payPal);
-
-        System.out.println("*** Realizando compra Internacional con Debito Bancario ***");
-        gateway.executePayment(157.29, internationalBankDebit);
-
-        System.out.println("*** Realizando compra Nacional con Debito Bancario ***");
-        gateway.executePayment(187.26, nationalBankDebit);
+        gateway.executePayment(price, method, callback);
     }
 }

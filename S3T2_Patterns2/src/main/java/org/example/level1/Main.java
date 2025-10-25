@@ -1,10 +1,7 @@
 package org.example.level1;
 
-import org.example.level1.builder.PizzaBuilder;
-import org.example.level1.concreteBuilders.HawaiianPizzaBuilder;
-import org.example.level1.concreteBuilders.VegetarianPizzaBuilder;
 import org.example.level1.director.PizzaMaster;
-import org.example.level1.product.Pizza;
+import org.example.level1.productBuilder.Pizza;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -18,14 +15,16 @@ public class Main {
 
         PizzaMaster pizzaiolo = new PizzaMaster();
 
-        PizzaBuilder hawaiianBuilder = new HawaiianPizzaBuilder();
-        Pizza hawaiian = pizzaiolo.makePizza(hawaiianBuilder, "XXL", "a la piedra");
-
+        Pizza hawaiian = pizzaiolo.makeHawaiianPizza("XXL", "a la piedra");
         System.out.println("Pizza Hawaiiana " + hawaiian);
 
-        PizzaBuilder vegetarianBuilder = new VegetarianPizzaBuilder();
-        Pizza vegetarian = pizzaiolo.makePizza(vegetarianBuilder, "L", "al molde");
-
+        Pizza vegetarian = pizzaiolo.makeVegetarianPizza("L", "al molde");
         System.out.println("Pizza Vegetariana " + vegetarian);
+
+        Pizza custom = pizzaiolo.makeCustomPizza(
+                "M", "integral",
+                "Salsa blanca", "Queso de cabra", "Cebolla caramelizada", "Pollo", "Bacon"
+        );
+        System.out.println("Pizza Personalizada " + custom);
     }
 }
