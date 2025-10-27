@@ -2,17 +2,15 @@ package org.example.level1.concreteBuilder;
 
 import org.example.level1.productBuilder.Pizza;
 
-public class VegetarianPizzaBuilder {
+public class VegetarianPizzaBuilder extends Pizza.PizzaBuilder {
 
-    public Pizza build(String size, String dough) {
-        return new Pizza.PizzaBuilder()
-                .setSize(size)
+    public VegetarianPizzaBuilder(String size, String dough) {
+        this.setSize(size)
                 .setDough(dough)
                 .addTopping("Salsa de tomate")
                 .addTopping("Setas")
                 .addTopping("Berenjena")
                 .addTopping("Cebolla")
-                .addTopping("NoQueso")
-                .build();
+                .addTopping("NoQueso");
     }
 }
